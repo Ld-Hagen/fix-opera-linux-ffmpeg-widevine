@@ -92,7 +92,7 @@ if $FIX_WIDEVINE; then
 fi
 
 #Moving libraries to its place
-printf 'Moving libraries to its place...\n'
+printf 'Moving libraries to their places...\n'
 ##ffmpeg
 mv -f "$TEMP_DIR/opera-fix/$FFMPEG_SO_NAME" "$OPERA_LIB_DIR"
 chmod 0644 "$OPERA_LIB_DIR/$FFMPEG_SO_NAME"
@@ -105,6 +105,6 @@ if $FIX_WIDEVINE; then
 	printf "[\n      {\n         \"preload\": \"$OPERA_WIDEVINE_DIR\"\n      }\n]\n" > "$OPERA_WIDEVINE_CONFIG"
 fi
 
-#Removing temprary files
-printf 'Removing temprary files...\n'
+#Removing temporary files
+printf 'Removing temporary files...\n'
 rm -rf "$TEMP_DIR/opera-fix"

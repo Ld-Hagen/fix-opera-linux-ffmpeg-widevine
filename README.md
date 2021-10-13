@@ -1,8 +1,8 @@
-# Fix Opera Linux ffmpeg & WidevineCdm
+# Fix Opera Linux libffmpeg & WidevineCdm
 
-* Fix Opera html5 media content including DRM-protected one.
-* It script must be execute all times opera will fails on showing html5 media content.
-* On Debian-based and Arch-based distros it may be started automatically after Opera update.
+* Fixes Opera html5 media content including DRM-protected one.
+* This script must be executed all times opera fails on showing html5 media content.
+* On Debian-based and Arch-based distributions it could be started automatically after Opera each update or reinstall.
 
 ## Requirements
 
@@ -12,9 +12,12 @@
 2. **unzip** (Is needed for unpacking the downloaded file)
     ```sudo apt install unzip```
 
+2. **git** (Is needed for fetching this script)
+	    ```sudo apt install git```
+
 ## Usage
 
-1. Clone this repo and
+1. Clone this repo
 
     ```git clone https://github.com/Ld-Hagen/fix-opera-linux-ffmpeg-widevine.git```
 

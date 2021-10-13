@@ -51,7 +51,7 @@ create_hook ()
 	done
 }
 
-ptintf 'Installing script to ypur system...\n'
+ptintf 'Installing script to your system...\n'
 
 printf 'Would you like to apply Widevine CDM fix? [y/n]'
 while read FIX_WIDEVINE; do
