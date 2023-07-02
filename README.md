@@ -6,7 +6,7 @@
 
 ## Requirements
 
-1. **wget** (Is needed for downloading the ffmpeg lib and widevine)
+1. **curl** or **wget** (Is needed for downloading the ffmpeg lib and widevine)
 
    **unzip** (Is needed for unpacking the downloaded file)
 

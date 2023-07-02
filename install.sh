@@ -14,8 +14,8 @@ if ! which unzip > /dev/null; then
 	exit 1
 fi
 
-if ! which wget > /dev/null; then
-	printf '\033[1mwget\033[0m package must be installed to run this script\n'
+if ! which curl > /dev/null && ! which wget > /dev/null; then
+	printf '\033[1mcurl\033[0m or \033[1mwget\033[0m must be installed to run this script\n'
 	exit 1
 fi
 
