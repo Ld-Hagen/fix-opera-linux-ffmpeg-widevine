@@ -92,7 +92,7 @@ for opera in ${OPERA_VERSIONS[@]}; do
   echo "Doing $opera"
   EXECUTABLE=$(command -v "$opera")
 	if [[ "$ARCH_SYSTEM" == true ]]; then
-		OPERA_DIR=$(dirname $(cat $EXECUTABLE | grep exec | cut -d ' ' -f 2))
+		OPERA_DIR=$(dirname $(whereis opera | cut -d ' ' -f 3))/opera
 	else
 		OPERA_DIR=$(dirname $(readlink -f $EXECUTABLE))
 	fi
