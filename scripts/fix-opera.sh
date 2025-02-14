@@ -109,6 +109,7 @@ for opera in ${OPERA_VERSIONS[@]}; do
   #Removing old libraries and preparing directories
   printf 'Removing old libraries & making directories...\n'
   ##ffmpeg
+  rm -f "$OPERA_DIR/$FFMPEG_SO_NAME"
   rm -f "$OPERA_LIB_DIR/$FFMPEG_SO_NAME"
   mkdir -p "$OPERA_LIB_DIR"
   ##Widevine
@@ -120,6 +121,7 @@ for opera in ${OPERA_VERSIONS[@]}; do
   #Moving libraries to its place
   printf 'Moving libraries to their places...\n'
   ##ffmpeg
+  cp -f "$TEMP_DIR/opera-fix/$FFMPEG_SO_NAME" "$OPERA_DIR"
   cp -f "$TEMP_DIR/opera-fix/$FFMPEG_SO_NAME" "$OPERA_LIB_DIR"
   chmod 0644 "$OPERA_LIB_DIR/$FFMPEG_SO_NAME"
   ##Widevine
