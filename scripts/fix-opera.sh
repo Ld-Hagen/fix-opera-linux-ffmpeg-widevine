@@ -121,7 +121,6 @@ for opera in ${OPERA_VERSIONS[@]}; do
   #Moving libraries to its place
   printf 'Moving libraries to their places...\n'
   ##ffmpeg
-  cp -f "$TEMP_DIR/opera-fix/$FFMPEG_SO_NAME" "$OPERA_DIR"
   cp -f "$TEMP_DIR/opera-fix/$FFMPEG_SO_NAME" "$OPERA_LIB_DIR"
   chmod 0644 "$OPERA_LIB_DIR/$FFMPEG_SO_NAME"
   ##Widevine
