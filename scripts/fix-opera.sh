@@ -15,6 +15,11 @@ if ! which unzip > /dev/null; then
 	exit 1
 fi
 
+if ! which bsdtar > /dev/null; then
+	printf '\033[1mlibarchive\033[0m package must be installed to run this script\n'
+	exit 1
+fi
+
 if ! which curl > /dev/null; then
 	printf '\033[1mcurl\033[0m package must be installed to run this script\n'
 	exit 1
@@ -34,7 +39,7 @@ readonly FIX_WIDEVINE=true
 readonly FIX_DIR='/tmp/opera-fix'
 readonly FFMPEG_SRC_MAIN='https://api.github.com/repos/Ld-Hagen/nwjs-ffmpeg-prebuilt/releases'
 readonly FFMPEG_SRC_ALT='https://api.github.com/repos/Ld-Hagen/fix-opera-linux-ffmpeg-widevine/releases'
-readonly WIDEVINE_VERSIONS='https://dl.google.com/widevine-cdm/versions.txt'
+readonly WIDEVINE_URL='https://www.google.com/dl/release2/chrome_component/aclxnidwwkj5di3vduduj2gqpgpq_4.10.2891.0/oimompecagnajdejgnnjijobebaeigek_4.10.2891.0_linux_b4hin3q5s66ws2322cyyfp35lu.crx3'
 readonly FFMPEG_SO_NAME='libffmpeg.so'
 readonly WIDEVINE_SO_NAME='libwidevinecdm.so'
 readonly WIDEVINE_MANIFEST_NAME='manifest.json'
@@ -61,12 +66,6 @@ if [[ -z $FFMPEG_URL ]]; then
   exit 1
 fi
 
-##Widevine
-#if $FIX_WIDEVINE; then
-#  readonly WIDEVINE_LATEST=`curl -sL4 $WIDEVINE_VERSIONS | tail -n1`
-#  readonly WIDEVINE_URL="https://dl.google.com/widevine-cdm/$WIDEVINE_LATEST-linux-x64.zip"
-#fi
-
 #Downloading files
 printf 'Downloading files...\n'
 mkdir -p "$FIX_DIR"
@@ -79,29 +78,13 @@ if [ $? -ne 0 ]; then
 fi
 ##Widevine
 if $FIX_WIDEVINE; then
-  echo "Finding a working Widevine version..."
-  # Get all versions, newest last
-  versions=$(curl -sL4 "$WIDEVINE_VERSIONS")
-  # Loop through in reverse order (newest first)
-  for ver in $(echo "$versions" | tac); do
-    test_url="https://dl.google.com/widevine-cdm/${ver}-linux-x64.zip"
-    # Check if the URL exists (no 404)
-    if curl --progress-bar --fail "$test_url" -o "$FIX_DIR/widevine.zip"; then
-      WIDEVINE_LATEST="$ver"
-      WIDEVINE_URL="$test_url"
-      echo -e "Trying Widevine version $WIDEVINE_LATEST from $WIDEVINE_URL\n"
-      break
-    else
-      echo "Widevine version $ver not available, trying older..."
-    fi
-  done
+  echo "Downloading Widevine..."
+  curl --progress-bar --fail "$WIDEVINE_URL" -o "$FIX_DIR/widevine.tar"
 
   if [[ -z "$WIDEVINE_URL" ]]; then
     echo "Failed to find a working Widevine version. Exiting..."
     exit 1
   fi
-  #readonly WIDEVINE_LATEST
-  #readonly WIDEVINE_URL
 fi
 
 #Extracting files
@@ -110,8 +93,8 @@ printf 'Extracting files...\n'
 unzip -o "$FIX_DIR/ffmpeg.zip" -d $FIX_DIR > /dev/null
 ##Widevine
 if $FIX_WIDEVINE; then
-  echo "unzip -o \"$FIX_DIR/widevine.zip\" -d $FIX_DIR"
-  unzip -o "$FIX_DIR/widevine.zip" -d $FIX_DIR > /dev/null
+  echo "bsdtar -xvf \"$FIX_DIR/widevine.tar\" -C $FIX_DIR"
+  bsdtar -xvf "$FIX_DIR/widevine.tar" -C $FIX_DIR > /dev/null
 fi
 
 for opera in ${OPERA_VERSIONS[@]}; do
@@ -145,7 +128,7 @@ for opera in ${OPERA_VERSIONS[@]}; do
   chmod 0644 "$OPERA_LIB_DIR/$FFMPEG_SO_NAME"
   ##Widevine
   if $FIX_WIDEVINE; then
-    cp -f "$FIX_DIR/$WIDEVINE_SO_NAME" "$OPERA_WIDEVINE_SO_DIR"
+    cp -f "$FIX_DIR/_platform_specific/linux_x64/$WIDEVINE_SO_NAME" "$OPERA_WIDEVINE_SO_DIR"
     chmod 0644 "$OPERA_WIDEVINE_SO_DIR/$WIDEVINE_SO_NAME"
     cp -f "$FIX_DIR/$WIDEVINE_MANIFEST_NAME" "$OPERA_WIDEVINE_DIR"
     chmod 0644 "$OPERA_WIDEVINE_DIR/$WIDEVINE_MANIFEST_NAME"
