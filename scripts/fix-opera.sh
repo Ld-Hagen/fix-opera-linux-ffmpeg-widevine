@@ -124,6 +124,8 @@ for opera in ${OPERA_VERSIONS[@]}; do
   ##ffmpeg
   cp -f "$FIX_DIR/$FFMPEG_SO_NAME" "$OPERA_LIB_DIR"
   chmod 0644 "$OPERA_LIB_DIR/$FFMPEG_SO_NAME"
+  #block LD_PRELOAD breaking soname compability
+  chmod a-r "$OPERA_DIR/$FFMPEG_SO_NAME"
   ##Widevine
   if $FIX_WIDEVINE; then
     cp -f "$FIX_DIR/$WIDEVINE_SO_NAME" "$OPERA_WIDEVINE_SO_DIR"
