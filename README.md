@@ -40,7 +40,7 @@
 
 3. (*Optional*) Run script. And if it works well go to next step.
 
-    `sudo ./scripts/fix-opera.sh`
+    `chmod +x scripts/fix-opera.sh && sudo ./scripts/fix-opera.sh`
 
 4. Make install.sh executable
 
