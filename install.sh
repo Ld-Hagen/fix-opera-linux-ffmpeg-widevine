@@ -32,7 +32,7 @@ install_deps() {
             apt-get install -y "${DEPS[@]}"
             ;;
         dnf)
-            dnf install -y "${DEPS[@]} python3-dnf-plugin-post-transaction-actions"
+            dnf install -y "${DEPS[@]}" python3-dnf-plugin-post-transaction-actions
             ;;
         pacman)
             pacman -Sy --needed --noconfirm "${DEPS[@]}"
