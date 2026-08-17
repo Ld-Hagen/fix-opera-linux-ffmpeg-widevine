@@ -31,7 +31,12 @@ fi
 
 #Config section
 readonly FIX_WIDEVINE=true
-readonly FIX_DIR='/tmp/opera-fix'
+FIX_DIR=$(mktemp -d -t opera-fix.XXXXXXXX)
+if [[ ! -d "$FIX_DIR" ]]; then
+	printf 'Failed to create a secure temporary directory\n'
+	exit 1
+fi
+readonly FIX_DIR
 readonly FFMPEG_SRC_MAIN='https://api.github.com/repos/Ld-Hagen/nwjs-ffmpeg-prebuilt/releases'
 readonly FFMPEG_SRC_ALT='https://api.github.com/repos/Ld-Hagen/fix-opera-linux-ffmpeg-widevine/releases'
 readonly WIDEVINE_SRC='https://raw.githubusercontent.com/mozilla-firefox/firefox/refs/heads/main/toolkit/content/gmp-sources/widevinecdm.json'
@@ -121,7 +126,6 @@ if $FIX_WIDEVINE; then
 fi
 
 #Downloading Widevine
-mkdir -p "$FIX_DIR"
 if $FIX_WIDEVINE; then
   printf 'Downloading Widevine CDM...\n'
   echo -e "From URL: $WIDEVINE_URL\n"
